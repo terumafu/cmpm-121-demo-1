@@ -9,9 +9,9 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 
 const button = document.createElement("button");
-button.innerHTML = "button";
+button.innerHTML = "😆";
 app.append(header);
 app.append(button);
-button.addEventListener('click', ()=>{
-    console.log("button clicked");
-})
+button.addEventListener("click", () => {
+  console.log("button clicked");
+});
