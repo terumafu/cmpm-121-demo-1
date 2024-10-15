@@ -6,28 +6,30 @@ let laughCount: number = 0;
 let prevTime: number = 0;
 let increments: number = 0;
 
-interface Item{
-  name :string,
-  cost : number,
-  button : HTMLButtonElement,
-  output : number,
-  count : number,
-  counttext : HTMLDivElement,
+interface Item {
+  name: string;
+  cost: number;
+  button: HTMLButtonElement;
+  output: number;
+  count: number;
+  counttext: HTMLDivElement;
 }
 
-function buyItem(item : Item){
-  if (laughCount >= item.cost){
+function buyItem(item: Item) {
+  if (laughCount >= item.cost) {
     increments += item.output;
     laughCount -= item.cost;
-    item.count ++;
+    item.count++;
     item.counttext.innerHTML = item.count + " " + item.name;
+    item.cost *= 1.15
+    item.button.innerHTML = item.name + " Costs " + item.cost.toFixed(1);
   }
 }
-function buttonInit(item : Item){
-  item.button.innerHTML = item.name + " Costs " + item.cost;
+function buttonInit(item: Item) {
+  item.button.innerHTML = item.name + " Costs " + item.cost.toFixed(1);
   item.button.disabled = true;
   item.button.addEventListener("click", () => buyItem(item));
-  
+
   item.counttext.innerHTML = item.count + " " + item.name;
 
   app.append(item.button);
@@ -48,19 +50,30 @@ incrementRate.innerHTML = increments + "/sec";
 const firstbutton = document.createElement("button");
 firstbutton.innerHTML = "😆";
 
-
 app.append(header);
 app.append(firstbutton);
 app.append(count);
 app.append(incrementRate);
 firstbutton.addEventListener("click", incrementNum);
 
+const newspaperFunnies: Item = {
+  name: "Newspaper Funnies",
+  cost: 10,
+  button: document.createElement("button"),
+  output: 1,
+  count: 0,
+  counttext: document.createElement("div"),
+};
+buttonInit(newspaperFunnies);
 
-
-const newspaperFunnies : Item = {name: "Newspaper Funnies",cost:10, button: document.createElement("button"),output: 1, count: 0, counttext: document.createElement("div")};
-buttonInit(newspaperFunnies)
-
-const streetMime : Item = {name: "Street Mimes", cost: 100,button: document.createElement("button"), output: 2, count: 0,counttext: document.createElement("div")};
+const streetMime: Item = {
+  name: "Street Mimes",
+  cost: 100,
+  button: document.createElement("button"),
+  output: 2,
+  count: 0,
+  counttext: document.createElement("div"),
+};
 buttonInit(streetMime);
 
 function incrementNum() {
@@ -78,7 +91,7 @@ function animate(): void {
   incrementRate.innerHTML = increments + "/sec";
   requestAnimationFrame(animate);
   checkdisabled(newspaperFunnies);
-  checkdisabled(streetMime)
+  checkdisabled(streetMime);
 }
 
 requestAnimationFrame(animate);
