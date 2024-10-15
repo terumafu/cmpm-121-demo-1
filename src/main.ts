@@ -3,7 +3,8 @@ import "./style.css";
 const app: HTMLDivElement = document.querySelector("#app")!;
 
 let laughCount: number = 0;
-let prevTime :number = 0;
+let prevTime: number = 0;
+let increments : number = 0;
 const gameName = "My amazing cookies";
 document.title = gameName;
 
@@ -13,27 +14,52 @@ header.innerHTML = gameName;
 const div = document.createElement("div");
 div.innerHTML = laughCount + " Laughs";
 
-const button = document.createElement("button");
-button.innerHTML = "😆";
+const firstbutton = document.createElement("button");
+firstbutton.innerHTML = "😆";
+
+
+const newspaperFunnies = document.createElement("button");
+let newspaperFunniesCost = 10;
+let newspaperFunniesOut = 1;
+newspaperFunnies.innerHTML = "Newspaper Funnies Costs " + newspaperFunniesCost;
+newspaperFunnies.disabled = true;
 
 //setInterval(incrementNum, 1000);
 //calls incrementNum every second
 app.append(header);
-app.append(button);
+app.append(firstbutton);
 app.append(div);
-button.addEventListener("click", incrementNum);
+app.append(newspaperFunnies)
+
+firstbutton.addEventListener("click", incrementNum);
+newspaperFunnies.addEventListener("click", ()=>{
+  if (laughCount >= newspaperFunniesCost){
+    increments += newspaperFunniesOut;
+    laughCount -= newspaperFunniesCost;
+  }
+ 
+
+})
 
 function incrementNum() {
   laughCount++;
   div.innerHTML = laughCount + " Laughs";
 }
 function animate(): void {
-  // Perform animation updates here
-  laughCount += (performance.now() - prevTime)/1000.0;
+  //every frame calls this
+  let timepassed = (performance.now() - prevTime) / 1000.0
+  
+  laughCount += increments * timepassed;
   prevTime = performance.now();
   div.innerHTML = laughCount.toFixed(1) + " Laughs";
   requestAnimationFrame(animate);
-
+  checkdisabled(newspaperFunnies,10);
 }
 
 requestAnimationFrame(animate);
+
+function checkdisabled(El : HTMLButtonElement, threshold : number){
+  if (El.disabled == true && laughCount >= threshold){
+    El.disabled = false;
+  }
+}
