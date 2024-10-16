@@ -13,6 +13,7 @@ interface Item {
   output: number;
   count: number;
   counttext: HTMLDivElement;
+  description: string;
 }
 
 function buyItem(item: Item) {
@@ -20,7 +21,7 @@ function buyItem(item: Item) {
     increments += item.output;
     laughCount -= item.cost;
     item.count++;
-    item.counttext.innerHTML = item.count + " " + item.name;
+    item.counttext.innerHTML = item.count + " " + item.name + " : " + item.description;
     item.cost *= 1.15;
     item.button.innerHTML = item.name + " Costs " + item.cost.toFixed(1);
   }
@@ -30,7 +31,7 @@ function buttonInit(item: Item) {
   item.button.disabled = true;
   item.button.addEventListener("click", () => buyItem(item));
 
-  item.counttext.innerHTML = item.count + " " + item.name;
+  item.counttext.innerHTML = item.count + " " + item.name + " : " + item.description;
 
   app.append(item.button);
   app.append(item.counttext);
@@ -43,6 +44,7 @@ const availableItems: Item[] = [
     output: 1,
     count: 0,
     counttext: document.createElement("div"),
+    description: "Your sunday comic strips",
   },
   {
     name: "Street Mimes",
@@ -51,17 +53,36 @@ const availableItems: Item[] = [
     output: 2,
     count: 0,
     counttext: document.createElement("div"),
+    description: "They're always stuck in a box",
   },
   {
-    name: "Comedians",
+    name: "Clowns",
     cost: 1000,
     button: document.createElement("button"),
     output: 50,
     count: 0,
     counttext: document.createElement("div"),
+    description: "The last person to invite to the party",
   },
-
-]
+  {
+    name: "Youtubers",
+    cost: 10000,
+    button: document.createElement("button"),
+    output: 100,
+    count: 0,
+    counttext: document.createElement("div"),
+    description: "Your screentime consumes your day",
+  },
+  {
+    name: "Comedians",
+    cost: 100000,
+    button: document.createElement("button"),
+    output: 1000,
+    count: 0,
+    counttext: document.createElement("div"),
+    description: "The tickets cost a fortune",
+  }
+];
 
 const gameName = "Laugh Generator";
 document.title = gameName;
@@ -86,14 +107,14 @@ app.append(incrementRate);
 firstbutton.append(buttonsprite);
 firstbutton.addEventListener("click", incrementNum);
 
-for (let i = 0; i < availableItems.length; i++){
+for (let i = 0; i < availableItems.length; i++) {
   buttonInit(availableItems[i]);
-};
+}
 
 function incrementNum() {
   laughCount++;
   count.innerHTML = laughCount + " Laughs";
-};
+}
 
 function animate(): void {
   //every frame calls this
@@ -110,10 +131,9 @@ function animate(): void {
 requestAnimationFrame(animate);
 
 function checkdisabled(items: Item[]) {
-  for (let i = 0; i < items.length; i++){
+  for (let i = 0; i < items.length; i++) {
     if (items[i].button.disabled == true && laughCount >= items[i].cost) {
       items[i].button.disabled = false;
     }
   }
-  
 }
