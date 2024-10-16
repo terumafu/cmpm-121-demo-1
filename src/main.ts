@@ -35,6 +35,34 @@ function buttonInit(item: Item) {
   app.append(item.button);
   app.append(item.counttext);
 }
+const availableItems: Item[] = [
+  {
+    name: "Newspaper Funnies",
+    cost: 10,
+    button: document.createElement("button"),
+    output: 1,
+    count: 0,
+    counttext: document.createElement("div"),
+  },
+  {
+    name: "Street Mimes",
+    cost: 100,
+    button: document.createElement("button"),
+    output: 2,
+    count: 0,
+    counttext: document.createElement("div"),
+  },
+  {
+    name: "Comedians",
+    cost: 1000,
+    button: document.createElement("button"),
+    output: 50,
+    count: 0,
+    counttext: document.createElement("div"),
+  },
+
+]
+
 const gameName = "Laugh Generator";
 document.title = gameName;
 
@@ -56,43 +84,16 @@ app.append(firstbutton);
 app.append(count);
 app.append(incrementRate);
 firstbutton.append(buttonsprite);
-
-
 firstbutton.addEventListener("click", incrementNum);
 
-const newspaperFunnies: Item = {
-  name: "Newspaper Funnies",
-  cost: 10,
-  button: document.createElement("button"),
-  output: 1,
-  count: 0,
-  counttext: document.createElement("div"),
+for (let i = 0; i < availableItems.length; i++){
+  buttonInit(availableItems[i]);
 };
-buttonInit(newspaperFunnies);
 
-const streetMime: Item = {
-  name: "Street Mimes",
-  cost: 100,
-  button: document.createElement("button"),
-  output: 2,
-  count: 0,
-  counttext: document.createElement("div"),
-};
-buttonInit(streetMime);
-
-const comedian: Item = {
-  name: "Comedians",
-  cost: 1000,
-  button: document.createElement("button"),
-  output: 50,
-  count: 0,
-  counttext: document.createElement("div"),
-}
-buttonInit(comedian);
 function incrementNum() {
   laughCount++;
   count.innerHTML = laughCount + " Laughs";
-}
+};
 
 function animate(): void {
   //every frame calls this
@@ -103,14 +104,16 @@ function animate(): void {
   count.innerHTML = laughCount.toFixed(1) + " Laughs";
   incrementRate.innerHTML = increments + "/sec";
   requestAnimationFrame(animate);
-  checkdisabled(newspaperFunnies);
-  checkdisabled(streetMime);
+  checkdisabled(availableItems);
 }
 
 requestAnimationFrame(animate);
 
-function checkdisabled(item: Item) {
-  if (item.button.disabled == true && laughCount >= item.cost) {
-    item.button.disabled = false;
+function checkdisabled(items: Item[]) {
+  for (let i = 0; i < items.length; i++){
+    if (items[i].button.disabled == true && laughCount >= items[i].cost) {
+      items[i].button.disabled = false;
+    }
   }
+  
 }
