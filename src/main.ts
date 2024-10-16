@@ -21,7 +21,7 @@ function buyItem(item: Item) {
     laughCount -= item.cost;
     item.count++;
     item.counttext.innerHTML = item.count + " " + item.name;
-    item.cost *= 1.15
+    item.cost *= 1.15;
     item.button.innerHTML = item.name + " Costs " + item.cost.toFixed(1);
   }
 }
@@ -48,12 +48,16 @@ const incrementRate = document.createElement("div");
 incrementRate.innerHTML = increments + "/sec";
 
 const firstbutton = document.createElement("button");
-firstbutton.innerHTML = "😆";
-
+const buttonsprite = document.createElement("img");
+buttonsprite.src = "src/assets/laughemoji.webp";
+buttonsprite.width = 100;
 app.append(header);
 app.append(firstbutton);
 app.append(count);
 app.append(incrementRate);
+firstbutton.append(buttonsprite);
+
+
 firstbutton.addEventListener("click", incrementNum);
 
 const newspaperFunnies: Item = {
@@ -76,6 +80,15 @@ const streetMime: Item = {
 };
 buttonInit(streetMime);
 
+const comedian: Item = {
+  name: "Comedians",
+  cost: 1000,
+  button: document.createElement("button"),
+  output: 50,
+  count: 0,
+  counttext: document.createElement("div"),
+}
+buttonInit(comedian);
 function incrementNum() {
   laughCount++;
   count.innerHTML = laughCount + " Laughs";
