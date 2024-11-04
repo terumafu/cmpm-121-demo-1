@@ -14,12 +14,7 @@ class Item {
   count: number;
   counttext: HTMLDivElement;
   description: string;
-  constructor(
-    name: string,
-    cost: number,
-    output: number,
-    description: string,
-  ) {
+  constructor(name: string, cost: number, output: number, description: string) {
     this.name = name;
     this.cost = cost;
     this.button = document.createElement("button");
@@ -34,6 +29,12 @@ class Item {
     }
   }
 }
+function returnCostString(name : string, cost : string){
+  return name + " Costs " + cost;
+}
+function returnCountString(count : number, name : string, desc : string){
+  return count +  " " + name + " : " + desc;
+}
 
 function buyItem(item: Item) {
   if (laughCount >= item.cost) {
@@ -41,53 +42,29 @@ function buyItem(item: Item) {
     laughCount -= item.cost;
     item.count++;
     item.counttext.innerHTML =
-      item.count + " " + item.name + " : " + item.description;
+      returnCountString(item.count,  item.name,  item.description);
     item.cost *= 1.15;
-    item.button.innerHTML = item.name + " Costs " + item.cost.toFixed(1);
+    item.button.innerHTML = returnCostString(item.name, item.cost.toFixed(1));
   }
 }
 function buttonInit(item: Item) {
-  item.button.innerHTML = item.name + " Costs " + item.cost.toFixed(1);
+  item.button.innerHTML = returnCostString(item.name, item.cost.toFixed(1));
   item.button.disabled = true;
   item.button.addEventListener("click", () => buyItem(item));
 
   item.counttext.innerHTML =
-    item.count + " " + item.name + " : " + item.description;
+  returnCountString(item.count,  item.name,  item.description);
 
   app.append(item.button);
   app.append(item.counttext);
 }
+
 const availableItems: Item[] = [
-  new Item(
-    "Newspaper Funnies",
-    10,
-    1,
-    "Your sunday comic strips",
-  ),
-  new Item(
-    "Street Mimes",
-    100,
-    2,
-    "They're always stuck in a box",
-  ),
-  new Item(
-    "Clowns",
-    1000,
-    50,
-    "The last person to invite to the party",
-  ),
-  new Item(
-    "Youtubers",
-    10000,
-    100,
-    "Your screentime consumes your day",
-  ),
-  new Item(
-    "Comedians",
-    100000,
-    1000,
-    "The tickets cost a fortune",
-  ),
+  new Item("Newspaper Funnies", 10, 1, "Your sunday comic strips"),
+  new Item("Street Mimes", 100, 2, "They're always stuck in a box"),
+  new Item("Clowns", 1000, 50, "The last person to invite to the party"),
+  new Item("Youtubers", 10000, 100, "Your screentime consumes your day"),
+  new Item("Comedians", 100000, 1000, "The tickets cost a fortune"),
 ];
 
 const gameName = "Laugh Generator";
