@@ -14,16 +14,21 @@ class Item {
   count: number;
   counttext: HTMLDivElement;
   description: string;
-  constructor(name : string, cost : number, button : HTMLButtonElement, output : number, count : number, counttext : HTMLDivElement, description : string){
+  constructor(
+    name: string,
+    cost: number,
+    output: number,
+    description: string,
+  ) {
     this.name = name;
     this.cost = cost;
-    this.button = button;
+    this.button = document.createElement("button");
     this.output = output;
-    this.count = count;
-    this.counttext = counttext;
+    this.count = 0;
+    this.counttext = document.createElement("div");
     this.description = description;
   }
-  checkdisabled(){
+  checkdisabled() {
     if (this.button.disabled == true && laughCount >= this.cost) {
       this.button.disabled = false;
     }
@@ -53,51 +58,36 @@ function buttonInit(item: Item) {
   app.append(item.counttext);
 }
 const availableItems: Item[] = [
-   new Item(
-     "Newspaper Funnies", 
-      10, 
-      document.createElement("button"), 
-      1, 
-      0, 
-      document.createElement("div"), 
-      "Your sunday comic strips"
-    ),
-   new Item(
-    "Street Mimes", 
-     100, 
-     document.createElement("button"), 
-     2, 
-     0, 
-     document.createElement("div"), 
-     "They're always stuck in a box"
-    ),
-    new Item(
-      "Clowns", 
-       1000, 
-       document.createElement("button"), 
-       50, 
-       0, 
-       document.createElement("div"), 
-       "The last person to invite to the party"
-    ),
-    new Item(
-      "Youtubers", 
-       10000, 
-       document.createElement("button"), 
-       100, 
-       0, 
-       document.createElement("div"), 
-       "Your screentime consumes your day"
-    ),
-    new Item(
-      "Comedians", 
-       100000, 
-       document.createElement("button"), 
-       1000, 
-       0, 
-       document.createElement("div"), 
-       "The tickets cost a fortune"
-    ),
+  new Item(
+    "Newspaper Funnies",
+    10,
+    1,
+    "Your sunday comic strips",
+  ),
+  new Item(
+    "Street Mimes",
+    100,
+    2,
+    "They're always stuck in a box",
+  ),
+  new Item(
+    "Clowns",
+    1000,
+    50,
+    "The last person to invite to the party",
+  ),
+  new Item(
+    "Youtubers",
+    10000,
+    100,
+    "Your screentime consumes your day",
+  ),
+  new Item(
+    "Comedians",
+    100000,
+    1000,
+    "The tickets cost a fortune",
+  ),
 ];
 
 const gameName = "Laugh Generator";
@@ -145,5 +135,3 @@ function animate(): void {
 }
 
 requestAnimationFrame(animate);
-
-
