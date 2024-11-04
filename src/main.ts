@@ -6,7 +6,7 @@ let laughCount: number = 0;
 let prevTime: number = 0;
 let increments: number = 0;
 
-interface Item {
+class Item {
   name: string;
   cost: number;
   button: HTMLButtonElement;
@@ -14,6 +14,20 @@ interface Item {
   count: number;
   counttext: HTMLDivElement;
   description: string;
+  constructor(name : string, cost : number, button : HTMLButtonElement, output : number, count : number, counttext : HTMLDivElement, description : string){
+    this.name = name;
+    this.cost = cost;
+    this.button = button;
+    this.output = output;
+    this.count = count;
+    this.counttext = counttext;
+    this.description = description;
+  }
+  checkdisabled(){
+    if (this.button.disabled == true && laughCount >= this.cost) {
+      this.button.disabled = false;
+    }
+  }
 }
 
 function buyItem(item: Item) {
@@ -21,7 +35,8 @@ function buyItem(item: Item) {
     increments += item.output;
     laughCount -= item.cost;
     item.count++;
-    item.counttext.innerHTML = item.count + " " + item.name + " : " + item.description;
+    item.counttext.innerHTML =
+      item.count + " " + item.name + " : " + item.description;
     item.cost *= 1.15;
     item.button.innerHTML = item.name + " Costs " + item.cost.toFixed(1);
   }
@@ -31,57 +46,58 @@ function buttonInit(item: Item) {
   item.button.disabled = true;
   item.button.addEventListener("click", () => buyItem(item));
 
-  item.counttext.innerHTML = item.count + " " + item.name + " : " + item.description;
+  item.counttext.innerHTML =
+    item.count + " " + item.name + " : " + item.description;
 
   app.append(item.button);
   app.append(item.counttext);
 }
 const availableItems: Item[] = [
-  {
-    name: "Newspaper Funnies",
-    cost: 10,
-    button: document.createElement("button"),
-    output: 1,
-    count: 0,
-    counttext: document.createElement("div"),
-    description: "Your sunday comic strips",
-  },
-  {
-    name: "Street Mimes",
-    cost: 100,
-    button: document.createElement("button"),
-    output: 2,
-    count: 0,
-    counttext: document.createElement("div"),
-    description: "They're always stuck in a box",
-  },
-  {
-    name: "Clowns",
-    cost: 1000,
-    button: document.createElement("button"),
-    output: 50,
-    count: 0,
-    counttext: document.createElement("div"),
-    description: "The last person to invite to the party",
-  },
-  {
-    name: "Youtubers",
-    cost: 10000,
-    button: document.createElement("button"),
-    output: 100,
-    count: 0,
-    counttext: document.createElement("div"),
-    description: "Your screentime consumes your day",
-  },
-  {
-    name: "Comedians",
-    cost: 100000,
-    button: document.createElement("button"),
-    output: 1000,
-    count: 0,
-    counttext: document.createElement("div"),
-    description: "The tickets cost a fortune",
-  }
+   new Item(
+     "Newspaper Funnies", 
+      10, 
+      document.createElement("button"), 
+      1, 
+      0, 
+      document.createElement("div"), 
+      "Your sunday comic strips"
+    ),
+   new Item(
+    "Street Mimes", 
+     100, 
+     document.createElement("button"), 
+     2, 
+     0, 
+     document.createElement("div"), 
+     "They're always stuck in a box"
+    ),
+    new Item(
+      "Clowns", 
+       1000, 
+       document.createElement("button"), 
+       50, 
+       0, 
+       document.createElement("div"), 
+       "The last person to invite to the party"
+    ),
+    new Item(
+      "Youtubers", 
+       10000, 
+       document.createElement("button"), 
+       100, 
+       0, 
+       document.createElement("div"), 
+       "Your screentime consumes your day"
+    ),
+    new Item(
+      "Comedians", 
+       100000, 
+       document.createElement("button"), 
+       1000, 
+       0, 
+       document.createElement("div"), 
+       "The tickets cost a fortune"
+    ),
 ];
 
 const gameName = "Laugh Generator";
@@ -125,15 +141,9 @@ function animate(): void {
   count.innerHTML = laughCount.toFixed(1) + " Laughs";
   incrementRate.innerHTML = increments + "/sec";
   requestAnimationFrame(animate);
-  checkdisabled(availableItems);
+  availableItems.forEach((item) => item.checkdisabled());
 }
 
 requestAnimationFrame(animate);
 
-function checkdisabled(items: Item[]) {
-  for (let i = 0; i < items.length; i++) {
-    if (items[i].button.disabled == true && laughCount >= items[i].cost) {
-      items[i].button.disabled = false;
-    }
-  }
-}
+
