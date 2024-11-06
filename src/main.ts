@@ -17,8 +17,6 @@ class Item {
     this.name = name;
     this.cost = cost;
     this.button = document.createElement("button");
-    this.button.addEventListener
-
     const descriptionText = document.createElement("desc");
     descriptionText.textContent = description;
     descriptionText.style.position = "absolute";
@@ -53,8 +51,8 @@ class Item {
 function returnCostString(name: string, cost: string) {
   return name + " Costs " + cost;
 }
-function returnCountString(count: number, name: string, desc: string) {
-  return count + " " + name ;
+function returnCountString(count: number, name: string) {
+  return count + " " + name;
 }
 
 function buyItem(item: Item) {
@@ -62,11 +60,7 @@ function buyItem(item: Item) {
     increments += item.output;
     laughCount -= item.cost;
     item.count++;
-    item.counttext.innerHTML = returnCountString(
-      item.count,
-      item.name,
-      item.description,
-    );
+    item.counttext.innerHTML = returnCountString(item.count, item.name);
     item.cost *= 1.15;
     item.button.innerHTML = returnCostString(item.name, item.cost.toFixed(1));
   }
@@ -76,16 +70,10 @@ function buttonInit(item: Item) {
   item.button.disabled = true;
   item.button.addEventListener("click", () => buyItem(item));
 
-  item.counttext.innerHTML = returnCountString(
-    item.count,
-    item.name,
-    item.description,
-  );
+  item.counttext.innerHTML = returnCountString(item.count, item.name);
 
   app.append(item.button);
   app.append(item.counttext);
-
-
 }
 
 const availableItems: Item[] = [
