@@ -13,15 +13,36 @@ class Item {
   output: number;
   count: number;
   counttext: HTMLDivElement;
-  description: string;
   constructor(name: string, cost: number, output: number, description: string) {
     this.name = name;
     this.cost = cost;
     this.button = document.createElement("button");
+    this.button.addEventListener
+
+    const descriptionText = document.createElement("desc");
+    descriptionText.textContent = description;
+    descriptionText.style.position = "absolute";
+    descriptionText.hidden = true;
+    document.body.appendChild(descriptionText);
+    //Add Event Listeners --------
+    // Hide and Show description based on if its inside the button or not
+    this.button.addEventListener("mouseenter", function () {
+      descriptionText.hidden = false;
+    });
+    this.button.addEventListener("mouseleave", function () {
+      descriptionText.hidden = true;
+    });
+    // Track Mouse for Description location only when hovering the button
+    this.button.addEventListener("mousemove", function (event) {
+      if (!descriptionText.hidden) {
+        descriptionText.style.left = event.pageX + 10 + "px";
+        descriptionText.style.top = event.pageY + 10 + "px";
+      }
+    });
+
     this.output = output;
     this.count = 0;
     this.counttext = document.createElement("div");
-    this.description = description;
   }
   checkdisabled() {
     if (this.button.disabled == true && laughCount >= this.cost) {
@@ -29,11 +50,11 @@ class Item {
     }
   }
 }
-function returnCostString(name : string, cost : string){
+function returnCostString(name: string, cost: string) {
   return name + " Costs " + cost;
 }
-function returnCountString(count : number, name : string, desc : string){
-  return count +  " " + name + " : " + desc;
+function returnCountString(count: number, name: string, desc: string) {
+  return count + " " + name ;
 }
 
 function buyItem(item: Item) {
@@ -41,8 +62,11 @@ function buyItem(item: Item) {
     increments += item.output;
     laughCount -= item.cost;
     item.count++;
-    item.counttext.innerHTML =
-      returnCountString(item.count,  item.name,  item.description);
+    item.counttext.innerHTML = returnCountString(
+      item.count,
+      item.name,
+      item.description,
+    );
     item.cost *= 1.15;
     item.button.innerHTML = returnCostString(item.name, item.cost.toFixed(1));
   }
@@ -52,11 +76,16 @@ function buttonInit(item: Item) {
   item.button.disabled = true;
   item.button.addEventListener("click", () => buyItem(item));
 
-  item.counttext.innerHTML =
-  returnCountString(item.count,  item.name,  item.description);
+  item.counttext.innerHTML = returnCountString(
+    item.count,
+    item.name,
+    item.description,
+  );
 
   app.append(item.button);
   app.append(item.counttext);
+
+
 }
 
 const availableItems: Item[] = [

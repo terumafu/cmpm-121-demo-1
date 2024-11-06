@@ -34,6 +34,7 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  animation : wiggle 2s infinite;
 }
 
 #app {
@@ -60,6 +61,33 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+desc {
+  padding: 0.2em 0.4em;
+  font-size: 1em;
+  background-color: white;
+  font-weight: 500;
+  font-family: inherit;
+  color: black;
+  margin-top: 10px;
+}
+@keyframes wiggle {
+  /* src = https://chat.brace.tools/s/94c7e2c4-16e2-485a-9217-1d21444fb27e */
+  0% {
+    transform: translateY(0em) rotate(0deg) skew(2deg, 1deg) scale(1);
+  }
+  25% {
+    transform: translateY(0.02em) rotate(2deg) scale(1.02);
+  }
+  50% {
+    transform: translateY(0em) rotate(0deg) skew(-2deg, -1deg) scale(1.03);
+  }
+  75% {
+    transform: translateY(0.02em) rotate(-2deg) scale(1.02);
+  }
+  100% {
+    transform: translateY(0em) rotate(0deg) skew(2deg, 1deg);
+  }
 }
 
 @media (prefers-color-scheme: light) {
